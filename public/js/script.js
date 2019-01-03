@@ -30,7 +30,6 @@ window.onload = function () {
   // json coordinate data is loaded
 
   $.get( "http://opendata.navici.com/tampere/opendata/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=opendata:WFS_RULLALAUTAILUALUE_MVIEW&outputFormat=json", function( response ) {
-    //console.log(`tre ${response.features}`);
 
     const datat = response.features;
     let trecoords;
@@ -38,7 +37,6 @@ window.onload = function () {
     let tempitem;
 
     datat.forEach(function(el) {
-      //console.log(`type ${el.geometry.type}`);
 
       // only point-type coordinates are handled
       // point names are stored as Item objects
@@ -50,7 +48,6 @@ window.onload = function () {
         items.push(tempitem);
 
         tempcoords = el.geometry.coordinates.toString();
-        //console.log(`tmp tre ${tempcoords}`);
 
         // coordinate string with ';' separator
         if (trecoords) {
@@ -61,9 +58,8 @@ window.onload = function () {
       }
     }); // forEach
 
-    //console.log(`trecoords2 ${trecoords}`);
     const nametable = JSON.stringify(items);
-    console.log(nametable);
+    //console.log(nametable);
 
     // coordinate conversion
     $.getJSON( "http://epsg.io/trans?data="+trecoords+"&s_srs=3878&&t_srs=4326", function( response ) {
@@ -75,7 +71,6 @@ window.onload = function () {
         tempitem.addCoords("{\"lat\": "+parseFloat(el.y)+", \"lng\": "+parseFloat(el.x)+"}");
 
         items2.push(tempitem.coords);
-        //console.log(`name ${items[index].name}`);
 
         // new marker
 
